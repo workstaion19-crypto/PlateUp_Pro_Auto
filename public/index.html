@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PlateUp.pro — 15-minute meals that fit your busy life</title>
+<meta name="description" content="Quick 15-minute meals to fit your busy life. PlateUp lists easy-to-cook recipes with step-by-step instructions.">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site-header"><div class="container header-grid"><div class="brand"><h1>PlateUp.pro</h1><p class="site-slogan">15-minute meals that fit your busy life</p></div></div></header>
+<main class="container">
+  <h2>Latest Recipes</h2>
+  <section id="grid" class="grid"></section>
+</main>
+<footer class="site-footer"><div class="container">© PlateUp.pro 2025</div></footer>
+<script>
+const API = 'https://plateuppro-v2.onrender.com/api/articles';
+async function load() {
+  try {
+    const res = await fetch(API);
+    const j = await res.json();
+    const grid = document.getElementById('grid');
+    if (!j.list || !j.list.length) { grid.innerHTML = '<p>No articles yet — run the generator.</p>'; return; }
+    j.list.forEach(function(a) {
+      var aEl = document.createElement('a');
+      aEl.className = 'card';
+      aEl.href = a.canonical || '/articles/' + a.slug;
+      var img = (a.thumb && a.thumb.length) ? a.thumb : '/placeholder.svg';
+      aEl.innerHTML = '<img src="'+img+'" alt="'+a.title+'"><div class="body"><h3>'+a.title+'</h3><p class="small">'+(a.category||'')+' • '+(a.area||'')+'</p></div>';
+      grid.appendChild(aEl);
+    });
+  } catch (e) {
+    document.getElementById('grid').innerHTML = '<p>Error loading articles.</p>';
+  }
+}
+window.addEventListener('DOMContentLoaded', load);
+</script>
+</body>
+</html>
