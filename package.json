@@ -1,0 +1,10 @@
+{
+  "name": "plateup-render-worker",
+  "version": "1.0.0",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "gen:articles": "node server/scripts/generateArticles.js"
+  },
+  "dependencies": {}
+}
