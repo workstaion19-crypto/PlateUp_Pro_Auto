@@ -1,6 +1,9 @@
 {
   "site": "PlateUp.pro",
-  "domain": "https://plateuppro-v2.onrender.com",
+  "domain": "{
+  "domain": "https://cookeasy-proplus-full-1.onrender.com",
+  "items": ["Chicken Curry", "Beef Stroganoff", "Vegetable Stir Fry"]
+}",
   "type": "quick-15min",
   "items": [
     "Garlic Lemon Shrimp",
