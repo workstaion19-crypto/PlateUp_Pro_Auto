@@ -1,11 +1,11 @@
 {
   "site": "PlateUp.pro",
-  {
   "domain": "https://plateuppro-v2.onrender.com",
-  "items": ["Chicken Curry", "Beef Stroganoff", "Vegetable Stir Fry"]
-}
   "type": "quick-15min",
   "items": [
+    "Chicken Curry",
+    "Beef Stroganoff",
+    "Vegetable Stir Fry",
     "Garlic Lemon Shrimp",
     "Spicy Tuna Wrap",
     "15-Minute Chicken Stir-Fry",
