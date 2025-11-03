@@ -1,35 +1,16 @@
-#!/usr/bin/env node
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
-const SOURCE = path.join(__dirname, '..', 'data', 'source.json');
-const OUT = path.join(__dirname, '..', 'data', 'articles.json');
-
-function fetchMealByName(name) {
-  const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=' + encodeURIComponent(name);
-  return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
-      let raw = '';
-      res.on('data', (chunk) => raw += chunk);
-      res.on('end', () => {
-        try {
-          const j = JSON.parse(raw);
-          resolve(j.meals && j.meals[0] ? j.meals[0] : null);
-        } catch (e) { resolve(null); }
-      });
-    }).on('error', (e) => resolve(null));
-  });
-}
-
-function slugify(s) {
-  return s.toString().toLowerCase().replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-');
-}
-
 async function run() {
+  // تحقق إذا كان SOURCE موجود، لو مش موجود أنشئ ملف فارغ
+  if (!fs.existsSync(SOURCE)) {
+    fs.writeFileSync(SOURCE, JSON.stringify({ items: [], domain: '' }, null, 2), 'utf8');
+    console.log('Created empty source.json');
+  }
+
+  // بعد كده اقرأ الملف بأمان
   const src = JSON.parse(fs.readFileSync(SOURCE, 'utf8'));
   const items = src.items || [];
   const domain = src.domain || '';
   const written = [];
+
   for (let name of items) {
     try {
       console.log('Fetching', name);
@@ -61,6 +42,7 @@ async function run() {
       console.error('Error', e && e.message);
     }
   }
+
   fs.writeFileSync(OUT, JSON.stringify({ ts: Date.now(), list: written }, null, 2), 'utf8');
   console.log('Wrote', OUT, 'items=', written.length);
 }
